@@ -1,8 +1,10 @@
-import React from 'react'
-
 const Login = () => {
   return (
-    <div>Welcome to Login</div>
+    <div>
+      <h1>
+         Welcome to Login
+      </h1>
+    </div>
   )
 }
 
