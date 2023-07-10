@@ -1,7 +1,5 @@
 import { useState } from "react"
-import {useDispatch} from 'react-redux'
 import './style.css'
-import { login } from "../../features/userSlice"
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
