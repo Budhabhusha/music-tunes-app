@@ -39,3 +39,10 @@
     font-family: "Inter";
     border-radius: 3px;
 }
+
+.main-login{
+  background-image: url('/src/assets/music.gif');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
