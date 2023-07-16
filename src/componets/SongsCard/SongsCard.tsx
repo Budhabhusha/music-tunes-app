@@ -1,16 +1,46 @@
-import React from 'react'
+import { useDispatch } from 'react-redux'
+import PlayPause from '../PlayPause'
+import { setActiveSong,playPause } from '../../store/features/songSlice'
 interface SongsCardProps {
-    title?:string,
-    description?:string,
-    imageUrl?:string
+    title?:string;
+    songUrl?:string;
+    imageUrl?:string;
+    artistName?:string;
+    activeSong?:any;
+    isPlaying?:any;
+    id?:any;
 }
-const SongsCard: React.FC<SongsCardProps> = ({ title, description, imageUrl }) => {
+
+const SongsCard: React.FC<SongsCardProps> = (props) => {
+  const {title,songUrl,imageUrl,artistName,activeSong,isPlaying,id } = props
+
+const dispatch = useDispatch()
+  const handlePauseClick = () => {
+    dispatch(playPause(false))
+  }
+
+  const handlePlayClick = () => {
+    dispatch(setActiveSong({songUrl,id}));
+    dispatch(playPause(true));
+  }
+  
   return (
-    <div className="card">
-      <img src={imageUrl} alt={title} className="card-image" />
-      <div className="card-content">
-      <h3 className="card-title">New Test</h3>
-      <p className="card-description">Hello Hii</p>
+    <div className="flex flex-col w-[250px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
+      <div className="relative w-full h-56 group">
+        <div className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 group-hover:flex ${activeSong === title ? 'flex bg-black bg-opacity-70' : 'hidden'}`}>
+          <PlayPause 
+          handlePause={handlePauseClick}
+          handlePlay={handlePlayClick}
+          activeSong={activeSong}
+          isPlaying={isPlaying}
+          id={id}
+          />
+        </div>
+        <img alt="song_image" src={imageUrl} className="w-full h-full rounded-lg" />
+      </div>
+      <div className='mt-4 flex flex-col'>
+        <p className='font-semibold text-lg text-white truncate'>{title}</p>
+        <p className='text-sm truncate text-gray-300 mt-1'>{artistName}</p>
       </div>
     </div>
   )
