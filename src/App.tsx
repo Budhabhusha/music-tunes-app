@@ -1,20 +1,13 @@
 import React from 'react';
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import {BrowserRouter} from 'react-router-dom'
 import './App.css';
-import Login from './pages/Login/Login'
-import Logout from './pages/LogOut/Logout';
-import PageNotFound from './pages/PageNotFound/PageNotFound';
-import Songs from './pages/Songs/Songs';
+import AuthMiddleWareRoutes from './routes';
+
 function App() {
   return (
     <>
      <BrowserRouter>
-       <Routes>
-        <Route path='/' element={<Login />}/>
-        <Route path='/logout' element={<Logout/>}/>
-        <Route path='/*' element={<PageNotFound/>}/>
-        <Route path='/songs' element={<Songs/>}></Route>
-       </Routes>
+        {/* <AuthMiddleWareRoutes/> */}
      </BrowserRouter>
     </>
   );
