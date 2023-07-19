@@ -1,21 +1,24 @@
 import React, {useState } from 'react';
 import { useNavigate } from 'react-router';
-
+import { setToken } from '../../store/auth/autgSlice';
+import { useDispatch } from 'react-redux';
+import './style.css'
 const LoginPage = () => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch=useDispatch()
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    localStorage.setItem("user",JSON.stringify({email,password,loggedIn:true}))
-    navigate('/')
-  };
+    dispatch( setToken(Math.random()))
+     };
 
   return (
     <div
       className="min-h-screen bg-cover bg-center main-login"
     >
+      
       <div className="flex justify-center items-center min-h-screen bg-black bg-opacity-50">
         <div className="max-w-md w-full p-6">
           <h1 className="text-white text-2xl font-semibold mb-6">Login to listen songs</h1>

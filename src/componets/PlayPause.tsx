@@ -10,12 +10,11 @@ interface PlayPauseProp {
 }
 
 const PlayPause:React.FC<PlayPauseProp> = (props) => {
-  const {activeSong,id,isPlaying,handlePause,handlePlay} = props
-  const {currentIndex} = useSelector((state:any)=> state.songs)
+  const {id,isPlaying,handlePause,handlePlay,activeSong} = props
   return (
     <> 
     {
-      isPlaying && activeSong && id === currentIndex ? 
+      isPlaying && activeSong?.trackId === id ? 
       <FaPauseCircle
        size={35}
        className='text-gray-300'
