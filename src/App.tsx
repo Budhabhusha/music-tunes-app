@@ -1,14 +1,12 @@
 import React from 'react';
-import {BrowserRouter} from 'react-router-dom'
+import {RouterProvider } from 'react-router-dom'
 import './App.css';
-import AuthMiddleWareRoutes from './routes';
+import router from './routes';
 
 function App() {
   return (
     <>
-     <BrowserRouter>
-        {/* <AuthMiddleWareRoutes/> */}
-     </BrowserRouter>
+      <RouterProvider router={router} />
     </>
   );
 }

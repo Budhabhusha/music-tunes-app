@@ -11,8 +11,7 @@ interface SongsDataProps {
 const Songs: React.FC<SongsDataProps> = (props) => {
   const {musicData, isFetching, error} = props
   const {activeSong,isPlaying} = useSelector((state:any)=> state.songs)
- console.log({musicData});
- 
+  
   if(isFetching) {
     return <Loader title="Loding Songs...."/>
   }
@@ -26,13 +25,10 @@ const Songs: React.FC<SongsDataProps> = (props) => {
         musicData.map((song:any, key:any)=>(
           <SongsCard
             key={key}
-            songUrl={song.previewUrl}
-            title={song.trackName}
-            imageUrl={song.artworkUrl100}
-            artistName={song.artistName}
+            song={song}
             activeSong={activeSong}
             isPlaying={isPlaying}
-            id={song.trackId}
+            id={song?.trackId}
           />
         ))
       }
