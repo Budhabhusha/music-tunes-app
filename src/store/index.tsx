@@ -24,4 +24,4 @@ export const store = configureStore({
   // getDefaultMiddleware().concat(songsApi.middleware)
 });
 export const persistor = persistStore(store)
-setupListeners(store.dispatch);
+export default store
