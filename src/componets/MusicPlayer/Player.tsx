@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useRef } from 'react';
 interface PlayerProps {
-  activeSong:any;
+  activeSong?:any;
   volume?:any;
   isPlaying?:boolean;
   seekTime?:any;

@@ -29,7 +29,6 @@ const SeekBar: React.FC<SeekBarProps> = (props) => {
        />
        <p className="text-white">{max === 0 ? '0:00' : getTime(max)}</p>
        <button type="button" onClick={() => {
-        console.log({songcurrentTime});
         setSeekTime(songcurrentTime && songcurrentTime + 1)
         }} className="hidden lg:ml-4 lg:block text-white">
          +

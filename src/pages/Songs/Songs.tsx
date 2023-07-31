@@ -11,7 +11,7 @@ interface SongsDataProps {
 const Songs: React.FC<SongsDataProps> = (props) => {
   const {musicData, isFetching, error} = props
   const {activeSong,isPlaying} = useSelector((state:any)=> state.songs)
-  
+
   if(isFetching) {
     return <Loader title="Loding Songs...."/>
   }
