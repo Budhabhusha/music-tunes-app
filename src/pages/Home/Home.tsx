@@ -1,68 +1,100 @@
-// import { useGetSongsQuery } from '../../store/services/songsApi'
-import NavBar from '../../componets/NavBar/NavBar'
-import SideBar from '../../componets/SideBar/SideBar'
 import SearchBar from '../../componets/SearchBar/SearchBar'
-import MusicPlayer from '../../componets/MusicPlayer'
+import MusicPlayer from '../../componets/MusicPlayer/index'
 import Songs from '../Songs/Songs'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import getSongsData from '../../store/services/songsApi'
 import { useDispatch, useSelector } from 'react-redux'
-import { setActiveSong,seSongs } from '../../store/features/songSlice'
+import { setActiveSong, seSongs } from '../../store/features/songSlice'
+// import TopPlay from '../../componets/TopPlay/TopPlay'
+import {debounce}  from "lodash";
 
-const Home = () => {
+const Home: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [offset, setOffset] = useState<number>(1);
   const [error, setError] = useState<boolean>(false);
-  const [searchTerm,setSearchTerm] = useState('100')
-  const {activeSong, songs} = useSelector((state:any)=>state.songs)
+  const [searchTerm, setSearchTerm] = useState()
+  const { activeSong, songs, isPlaying } = useSelector((state: any) => state.songs)
   const dispatch = useDispatch()
-  useEffect(()=>{
-    console.log("Hello");
+  const containerRef=useRef(null);
+
+
+  useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const songsData =  await getSongsData(searchTerm,offset)
-      if(songsData?.length) {
-        if(!activeSong?.previewUrl) {
+      const songsData = await getSongsData(searchTerm, offset)
+      if (songsData?.length) {
+        if (!activeSong?.previewUrl) {
           dispatch(setActiveSong(songsData[0]))
         }
       }
       dispatch(seSongs(songsData))
       setIsLoading(false)
-      if(!songsData) {
+      if (!songsData) {
         setError(true)
       }
     })()
-  },[searchTerm,offset])  
-  // const {data, isFetching, error} = useGetSongsQuery(0)
-  
+  }, [searchTerm, offset])
+
+  const handleSearchSubmit = (e: any) => {
+    e.preventDefault()
+  }
+  const handelInfiniteScroll = useCallback(
+    debounce(async () => {
+      try {
+        if (
+          window.innerHeight + document.documentElement.scrollTop + 1 >=
+          document.documentElement.scrollHeight
+        ) {
+          if (!isLoading) {
+            setIsLoading(true);
+            setOffset((prevOffset) => prevOffset + 1);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }, 200),
+    [isLoading]
+  );
+
+  useEffect(() => {
+     if(containerRef.current){
+      //@ts-ignore
+      containerRef.current.addEventListener('scroll',handelInfiniteScroll)
+    }
+  }, []);
+
   return (
     <>
-    <div className=''>
-     <NavBar />
-    </div>
-    <div className="relative flex">
-    {/* <SideBar /> */}
-    <div className="flex-1 flex flex-col bg-gradient-to-br from-black to-[#13064d]">
-      <SearchBar />
-
-      <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
-        <div className="flex-1 h-fit pb-40">
-          <Songs 
-          musicData={songs} 
-          isFetching={isLoading} 
-          error={error}
+      <div className="fixed flex rounded-tl-lg rounded-2xl w-full">
+        <div className="flex-1 flex flex-col bg-gradient-to-br bg-gray-800 pt-4 rounded-2xl">
+          <SearchBar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            handleSubmit={handleSearchSubmit}
           />
-        </div>
-        {/* <div className="xl:sticky relative top-0 h-fit">
+          <div id={'container'} ref={containerRef} className="px-6 h-[calc(94vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
+            <div className="flex-1 h-fit pb-40 ">
+              <Songs
+                musicData={songs}
+                isFetching={isLoading}
+                error={error}
+              />
+            </div>
+            {/* <div className="xl:sticky relative top-0 h-fit">
           <TopPlay />
         </div> */}
+          </div>
+        </div>
+        {activeSong?.trackId && isPlaying && (
+          <div 
+          className={`absolute h-28 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#2a2a80] backdrop-blur-lg rounded-t-3xl z-10 ${isPlaying ? 'transition-all ease-in-out duration-500 delay-[200ms]' : ''}`}
+          >
+            <MusicPlayer />
+          </div>
+        )}
       </div>
-    </div>
-      <div className="absolute h-28 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#2a2a80] backdrop-blur-lg rounded-t-3xl z-10">
-        <MusicPlayer />
-      </div>
-  </div>
-  </>
+    </>
   )
 }
 

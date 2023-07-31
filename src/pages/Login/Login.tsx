@@ -20,8 +20,8 @@ const LoginPage = () => {
     >
       
       <div className="flex justify-center items-center min-h-screen bg-black bg-opacity-50">
-        <div className="max-w-md w-full p-6">
-          <h1 className="text-white text-2xl font-semibold mb-6">Login to listen songs</h1>
+        <div className="max-w-md w-full p-6 bg-opacity-50 shadow-lg shadow-cyan-500 md:shadow-xl md:shadow-cyan-500">
+          <h1 className="text-white text-2xl font-semibold mb-6 text-center">Login to listen songs</h1>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="mb-4">
               <label className="text-white block mb-2">Enter Email</label>

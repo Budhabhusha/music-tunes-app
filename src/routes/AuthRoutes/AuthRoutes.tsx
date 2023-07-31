@@ -1,15 +1,17 @@
 import React from 'react'
-import {useRoutes} from 'react-router-dom'
+import {Routes,Route} from 'react-router-dom'
 import PageNotFound from '../../pages/PageNotFound/PageNotFound'
 import LoginPage from '../../pages/Login/Login'
-
+import AuthLayout from '../../layouts/AuthLayout'
 const AuthRoutes = () => {
-  
-  let element = useRoutes([
-    {path: '/' ,element: <LoginPage/> },
-    {path: '*' ,element: <PageNotFound/> }
-  ])
-  return element
+  return (
+    <Routes>
+			{/* <Route element={<AuthLayout />}> */}
+				<Route index element={<LoginPage />} />
+				<Route path="*" element={<PageNotFound />} />
+			{/* </Route> */}
+		</Routes>
+  )
 }
 
 export default AuthRoutes

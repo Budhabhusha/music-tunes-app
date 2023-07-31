@@ -1,4 +1,5 @@
 import React from 'react'
+import './style.css'
 
 interface TrackProps {
   isActive?:boolean;
@@ -8,7 +9,7 @@ interface TrackProps {
 const Track: React.FC<TrackProps> = (props) => {
   const {isActive,isPlaying,activeSong} = props
   return (
-    <div className='flex-1 flex items-center justify-center '>
+    <div className='flex-1 flex items-center justify-center'>
         <div className={`${isPlaying && isActive ? 'animate-[spin_3s_linear_infinite]':''} hidden sm:block h-16 w-16 mr-4`}>
          <img src={activeSong?.artworkUrl100} alt="cover art" className="rounded-full" />
         </div>
