@@ -7,8 +7,8 @@ interface PlayerProps {
   seekTime?:any;
   repeat?:any
   onEnded?:()=>void;
-  onTimeUpdate?:()=>void
-  onLoadedData?:()=>void
+  onTimeUpdate?:(e:any)=>void
+  onLoadedData?:(e:any)=>void
 }
 const Player: React.FC <PlayerProps> = (props) => {
   const {activeSong, volume, isPlaying,onEnded,onTimeUpdate,onLoadedData,seekTime,repeat} = props

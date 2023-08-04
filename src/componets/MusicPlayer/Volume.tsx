@@ -3,9 +3,9 @@ import { BsFillVolumeUpFill, BsVolumeDownFill, BsFillVolumeMuteFill } from 'reac
 
 interface VolumeProps {
    value?:any;
-   min?:number;
-   max?:number;
-   onChange?: () => void;
+   min?:number | string;
+   max?:number | string;
+   onChange?: (e:any) => void;
    setVolume?:any
 }
 
