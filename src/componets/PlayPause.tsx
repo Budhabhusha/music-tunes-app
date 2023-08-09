@@ -17,12 +17,12 @@ const PlayPause:React.FC<PlayPauseProp> = (props) => {
       isPlaying && activeSong?.trackId === id ? 
       <FaPauseCircle
        size={35}
-       className='text-gray-300'
+       className='text-gray-300 cursor-pointer'
        onClick={handlePause}
        /> : 
       <FaPlayCircle
       size={35}
-      className='text-gray-300'
+      className='text-gray-300 cursor-pointer'
       onClick={handlePlay}
        />
     }
