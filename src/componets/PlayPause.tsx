@@ -6,7 +6,7 @@ interface PlayPauseProp {
   isPlaying?:any;
   handlePause?(e:any): any;
   handlePlay?(e:any):any;
-  id?:number
+  id:number
 }
 
 const PlayPause:React.FC<PlayPauseProp> = (props) => {

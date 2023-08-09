@@ -38,12 +38,16 @@ const Home: React.FC = () => {
 
 
   const handleNextSongClick = () => {
-    const currentSongIndex = songs.findIndex((song:any) =>song?.previewUrl === activeSong?.previewUrl);
-    dispatch(setActiveSong(songs[currentSongIndex + 1]));
+    const currentSongIndex = songs.findIndex((song:any) =>song?.trackId === activeSong?.trackId);
+    if(currentSongIndex === songs.length - 1){
+      dispatch(setActiveSong(songs[0]));
+    } else {
+      dispatch(setActiveSong(songs[currentSongIndex + 1]));
+    }
   };
   
   const handlePrevSongClick = () => {
-    const currentSongIndex = songs.findIndex((song:any) =>song?.previewUrl === activeSong?.previewUrl);
+    const currentSongIndex = songs.findIndex((song:any) =>song?.trackId === activeSong?.trackId);
     dispatch(setActiveSong(songs[currentSongIndex - 1]));
   }
 
