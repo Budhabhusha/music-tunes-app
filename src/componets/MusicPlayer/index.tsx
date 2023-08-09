@@ -6,7 +6,7 @@ import Volume from "./Volume";
 import { setActiveSong,playPause } from "../../store/features/songSlice";
 import Track from "./Track";
 import SeekBar from "./SeekBar";
-
+import './style.css'
 interface MusicPlayerProps {
   handlePrevSongClick?: () => void;
   handleNextSongClick?: () => void;
@@ -25,9 +25,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = (props) => {
   const [songcurrentTime, setSongcurrentTime] = useState(0);
 
   return (
-    <div className="relative sm:px-12 px-8 w-full flex items-center justify-between">
+    <div className="relative sm:px-12 px-8 w-full flex items-center justify-between flex-wrap md:flex-nowrap">
       <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong}/>
-      <div className="flex-1 flex flex-col items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center small-device-item">
         <Controls
           isPlaying={isPlaying}
           activeSong={activeSong}

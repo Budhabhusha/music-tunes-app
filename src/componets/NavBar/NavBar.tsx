@@ -4,9 +4,12 @@ import {RiCloseLine} from 'react-icons/ri'
 import {NavLink} from 'react-router-dom'
 import MusicLogo from '../../assets/logo2.gif'
 import UserLogo from '../../assets/userlogo.jpeg'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setToken } from '../../store/auth/autgSlice'
 import SideBar from '../SideBar/SideBar'
+import SearchBar from '../SearchBar/SearchBar';
+import { debounce } from 'lodash';
+import { setSearchSong,setSearch } from '../../store/features/songSlice'
 const NavBar = () => { 
   const dispatch = useDispatch()
   const [isOpen,setIsOpen] = useState(false)
@@ -14,6 +17,10 @@ const NavBar = () => {
   const handleLogut = () =>{
     dispatch(setToken(null))
   }
+  const handleSearch = debounce((value:string) =>{
+    dispatch(setSearchSong([]))
+    dispatch(setSearch(value))
+  },1000)
 
   return (
     <nav className="bg-gradient-to-br bg-neutral-950	rounded-t-sm top-0 z-50 fixed inset-x-0">
@@ -27,6 +34,11 @@ const NavBar = () => {
        }
        {sideBarOpen && <SideBar sideBarOpen={sideBarOpen} setSideBarOpen={setSideBarOpen}/>}
         <img className="h-10 w-auto" src={MusicLogo} alt="Logo" />
+       </div>
+       <div className="flex-1 items-center">
+          <SearchBar
+            handleSearch={handleSearch}
+          />
        </div>
        <div className="md:block d-flez">
          <div className="ml-4 flex items-center md:ml-30">

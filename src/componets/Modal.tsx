@@ -1,18 +1,33 @@
 import React from 'react'
 import { RiCloseLine } from 'react-icons/ri'
-import MusicPlayer from './MusicPlayer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import PlayPause from './PlayPause';
+import { playPause, setActiveSong } from '../store/features/songSlice';
 interface ModalProps {
-    activeSong?: any
     showModal?: boolean;
     setShowModal?: any
     onClose?: () => void
+    activeSong?:any;
     song?: any
 }
 
-const Modal: React.FC<ModalProps> = ({ activeSong, showModal, onClose, song }) => {
-    const {isPlaying, isActive} = useSelector((state:any)=>state.songs)
-    let activeModalSong = (isPlaying && isActive) || (activeSong?.trackId === song?.trackId) ? activeSong : song
+const Modal: React.FC<ModalProps> = ({showModal, onClose, song }) => {
+    const {isPlaying, isActive,activeSong} = useSelector((state:any)=>state.songs) 
+    let activeModalSong = isActive && activeSong?.trackId === song?.trackId ? song : activeSong
+    const dispatch = useDispatch()
+    const handlePauseClick = () => {
+        dispatch(playPause(false))
+    }
+    const handlePlayClick = (e:any) => {
+        e.stopPropagation()
+        if(activeSong?.previewUrl === song?.previewUrl) {
+        dispatch(setActiveSong(song));
+        } else {
+        dispatch(setActiveSong(song));
+        }
+        dispatch(playPause(true));
+    }
+  
     return (
         <>
             <div className={`absolute top-0 h-screen w-full bg-gradient-to-tl backdrop-blur-lg z-10 p-6 smooth-transition ${showModal ? 'right-0' : '-right-full'}`}>
@@ -33,10 +48,18 @@ const Modal: React.FC<ModalProps> = ({ activeSong, showModal, onClose, song }) =
                         <p>Collection Name: {activeModalSong?.collectionName}</p>
                         <p>Primary Genre Name: {activeModalSong?.primaryGenreName}</p>
                         <p>Country: {activeModalSong?.country}</p>
+                        <div className='pt-5'>
+                        <PlayPause
+                            handlePause={handlePauseClick}
+                            handlePlay={handlePlayClick}
+                            activeSong={activeSong}
+                            isPlaying={isPlaying}
+                            id={activeModalSong?.trackId}
+                            />
+                        </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
         </>
     )

@@ -4,40 +4,36 @@ import Songs from '../Songs/Songs'
 import {useEffect, useRef, useState } from 'react'
 import getSongsData from '../../store/services/songsApi'
 import { useDispatch, useSelector } from 'react-redux'
-import { setActiveSong, seSongs,playPause } from '../../store/features/songSlice'
-// import Loader from '../../componets/Loader'
+import { setActiveSong, setSongs,playPause } from '../../store/features/songSlice'
 import useInfiniteScroll from '../../customHooks/useInfiniteScroll'
 const Home: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [offset, setOffset] = useState<number>(1);
   const [error, setError] = useState<boolean>(false);
-  const [searchTerm, setSearchTerm] = useState()
-  const [allSongs, setAllSongs] = useState<string[]>([])
-  const { activeSong, songs, isPlaying,isActive } = useSelector((state: any) => state.songs)
+  const { activeSong, songs, isPlaying,isActive,search } = useSelector((state: any) => state.songs)
   const dispatch = useDispatch()
-  const containerRef = useRef(null);
- 
-  useEffect(() => {
-    setIsLoading(true);
-    (async () => {
-      const songsData = await getSongsData(searchTerm, offset)
-      console.log({songsData});
-      if (songsData?.length) {
-        setAllSongs(prev => [...prev, ...songsData])
-        if (!activeSong?.previewUrl) {
-          dispatch(setActiveSong(songsData[0]))
-        }
-      }
-      dispatch(seSongs(songsData))
-      setIsLoading(false)
-      if (!songsData) {
-        setError(true)
-      }
-    })()
-  }, [searchTerm, offset])
+  const containerRef = useRef<null | HTMLDivElement>(null) ;
 
+  useEffect(() => {
+     feacthSongs()
+  }, [search,offset])
+
+  const feacthSongs = async() =>{
+    setIsLoading(true);
+    const songsData = await getSongsData(search, offset)
+    if (songsData?.length) {
+      if (!activeSong?.previewUrl) {
+        dispatch(setActiveSong(songsData[0]))
+      }
+    }
+    dispatch(setSongs(songsData))
+    setIsLoading(false)
+    if (!songsData) {
+      setError(true)
+    }
+  }
   const loadSongsData = async() => {
-    setOffset((prevOffset) => prevOffset + 1);
+    setOffset((prevOffset) => prevOffset + 15);
   }
 
 
@@ -60,30 +56,24 @@ const Home: React.FC = () => {
     }
   };
 
-  const handleSearchSubmit = (e: any) => {
-    e.preventDefault()
-  }
+  useInfiniteScroll({containerRef, callBack:loadSongsData,isLoading:isLoading})
 
-  useInfiniteScroll({containerRef, callBack:loadSongsData})
+  useEffect(()=>{
+    containerRef.current?.scrollIntoView({ behavior: "smooth"});
+  },[])
 
   return (
     <>
       <div className="fixed flex rounded-tl-lg rounded-2xl w-full">
-        <div className="flex-1 flex flex-col bg-gradient-to-br bg-gray-800 pt-4 rounded-2xl">
-          <SearchBar
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            handleSubmit={handleSearchSubmit}
-          />
-          <div id={'container'} ref={containerRef} className="px-6 h-[calc(94vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
+        <div className="flex-1 flex flex-col bg-gradient-to-br bg-gray-800 pt-12 rounded-2xl">
+          <div id={'container'} ref={containerRef} className="px-6 h-[calc(94vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row">
             <div className="flex-1 h-fit pb-40 ">
               <Songs
-                musicData={allSongs}
+                musicData={songs}
                 isFetching={isLoading}
                 error={error}
               />
             </div>
-            {/* {isLoading && <Loader/>} */}
           </div>
         </div>
         {activeSong?.trackId && isPlaying && (

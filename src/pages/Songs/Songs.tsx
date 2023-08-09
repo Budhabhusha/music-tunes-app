@@ -23,7 +23,7 @@ const Songs: React.FC<SongsDataProps> = (props) => {
     <>
     <div className='flex flex-wrap justify-center gap-8 grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'>
       {
-        musicData.map((song:any, key:any)=>(
+        musicData?.length > 0 && musicData?.map((song:any, key:any)=>(
           <SongsCard
             key={key}
             song={song}

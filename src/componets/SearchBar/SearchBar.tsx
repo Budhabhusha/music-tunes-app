@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {FiSearch} from 'react-icons/fi'
 interface SearchBarProps {
-  searchTerm?:any;
-  setSearchTerm?:any;
-  handleSubmit?: (arg:any)=> void;
+  handleSearch:(arg:string)=> void
 }
 const SearchBar:React.FC<SearchBarProps> = (props) => {
-  const {searchTerm,setSearchTerm,handleSubmit} = props
-  
+  const [searchTerm,setSearchTerm ] = useState('')
+  const {handleSearch} = props
+   
+  const handleChange = (e:any) =>{
+    setSearchTerm(e.target.value)
+    handleSearch && handleSearch(e.target.value)
+  }
+
   return (
-  <form onSubmit={handleSubmit} autoComplete='off' className='p-2 text-gray-400 focus-within:text-gray-900'>
+  <form onSubmit={(e:any)=> e.preventDefault()} autoComplete='off' className='p-2 text-gray-400 focus-within:text-gray-900'>
     <label htmlFor='search-field' className='sr-only'>
       Search all songs
     </label>
@@ -23,7 +27,7 @@ const SearchBar:React.FC<SearchBarProps> = (props) => {
           placeholder="Search"
           type="search"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleChange}
         />
       </div>
   </form>

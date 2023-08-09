@@ -13,7 +13,6 @@ interface PlayerProps {
 const Player: React.FC <PlayerProps> = (props) => {
   const {activeSong, volume, isPlaying,onEnded,onTimeUpdate,onLoadedData,seekTime,repeat} = props
   const songRef = useRef<HTMLAudioElement | null>(null)
-  // console.log({songRef,activeSong});
   
   if(songRef.current) {
     if(isPlaying) {

@@ -5,10 +5,11 @@ import { current } from '@reduxjs/toolkit';
 interface UseInfiniteScrollProps {
   callBack:() => void;
   containerRef?:any;
+  isLoading:boolean
 }
 
 const useInfiniteScroll = (props: UseInfiniteScrollProps) => {
-  const {containerRef,callBack} = props 
+  const {containerRef,callBack,isLoading} = props 
   const handelInfiniteScroll = useCallback(
     debounce(async () => {
       let isBottom = null
@@ -19,7 +20,7 @@ const useInfiniteScroll = (props: UseInfiniteScrollProps) => {
         isBottom = scrollHeight - scrollTop === clientHeight;
         isBottom = containerRef?.current
       }
-      if(isBottom) {
+      if(isBottom && !isLoading) {
         callBack()
       }
     }, 500),[]
