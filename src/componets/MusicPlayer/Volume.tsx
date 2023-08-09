@@ -3,19 +3,19 @@ import { BsFillVolumeUpFill, BsVolumeDownFill, BsFillVolumeMuteFill } from 'reac
 
 interface VolumeProps {
    value?:any;
-   min?:number;
-   max?:number;
-   onChange?: () => void;
+   min?:number | string;
+   max?:number | string;
+   onChange?: (e:any) => void;
    setVolume?:any
 }
 
 const Volume:React.FC<VolumeProps> = (props) => {
     const {value,min,max,onChange,setVolume} = props
   return (
-    <div className='hidden lg:flex flex-1 items-center justify-end'>
-       {value <= 1 && value > 0.5 && <BsFillVolumeUpFill size={25} color='#FFF' onClick={()=>setVolume(0)}/>}
-       {value <= 0.5 && value > 0 && <BsVolumeDownFill size={25} color="#FFF" onClick={() => setVolume(0)} />}
-       {value === 0 && <BsFillVolumeMuteFill size={25} color="#FFF" onClick={() => setVolume(1)} />}
+    <div className='text-center md:text-start lg:flex flex-1 items-center justify-end'>
+       {value <= 1 && value > 0.5 && <BsFillVolumeUpFill size={25} color='#FFF' onClick={()=>setVolume(0)} className="inline" />}
+       {value <= 0.5 && value > 0 && <BsVolumeDownFill size={25} color="#FFF" onClick={() => setVolume(0)} className="inline" />}
+       {value === 0 && <BsFillVolumeMuteFill size={25} color="#FFF" onClick={() => setVolume(1)} className="inline" />}
        <input
        type='range'
        step='any'

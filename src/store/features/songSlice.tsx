@@ -1,18 +1,19 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-
 interface InitialUserState {
-  songs?:Array<[]>;
+  songs:Array<[]>;
   isActive?:boolean;
-  isPlaying?:boolean
-  activeSong?:any,
-  id?:number
+  isPlaying?:boolean;
+  activeSong?:any;
+  id?:number;
   currentSongs?:any
-  currentIndex?:number
+  currentIndex?:number;
+  search:string;
 }
 
 const initialState: InitialUserState = {
     songs: [],
+    search:'',
     isActive: false,
     isPlaying: false,
     activeSong: null,
@@ -28,8 +29,14 @@ const songSlice = createSlice({
           state.activeSong = action.payload;
           state.isActive = true;
         },
-        seSongs:(state,action)=> {
-          state.songs = action.payload;
+        setSongs:(state,action)=> {
+          state.songs.push(...action.payload);
+        },
+        setSearchSong:(state,action)=>{
+          state.songs = action.payload
+        },
+        setSearch:(state,action)=>{
+          state.search = action.payload
         },
         playPause: (state, action) =>{
         state.isPlaying = action.payload
@@ -37,6 +44,6 @@ const songSlice = createSlice({
     },
 });
 
-export const {setActiveSong,seSongs,playPause} = songSlice.actions
+export const {setActiveSong,setSongs,playPause,setSearchSong,setSearch} = songSlice.actions
 export default songSlice.reducer
 

@@ -1,4 +1,6 @@
 .active-song-img{
- max-width: 70px !important;
- height: 70px !important;
+   width: 80px !important;
+   height: 68px !important;
+   border-radius: 50%;
+   background-repeat: no-repeat;
 } 
