@@ -16,7 +16,9 @@ const Player: React.FC <PlayerProps> = (props) => {
   
   if(songRef.current) {
     if(isPlaying) {
-      songRef.current.play();
+      songRef.current.play().catch(()=>{
+        console.log("handled")
+      });
     } else {
       songRef.current.pause();
     }

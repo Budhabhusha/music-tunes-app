@@ -1,33 +1,22 @@
 import React from 'react'
 import { RiCloseLine } from 'react-icons/ri'
-import { useDispatch, useSelector } from 'react-redux';
+import {useSelector } from 'react-redux';
 import PlayPause from './PlayPause';
-import { playPause, setActiveSong } from '../store/features/songSlice';
+
 interface ModalProps {
     showModal?: boolean;
     setShowModal?: any
     onClose?: () => void
     activeSong?:any;
     song?: any
+    onPlayClick?:(e:any)=> void;
+    onPauseClick?: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({showModal, onClose, song }) => {
+const Modal: React.FC<ModalProps> = ({showModal, onClose, song,onPlayClick,onPauseClick }) => {
     const {isPlaying, isActive,activeSong} = useSelector((state:any)=>state.songs) 
     let activeModalSong = isActive && activeSong?.trackId === song?.trackId ? song : activeSong
-    const dispatch = useDispatch()
-    const handlePauseClick = () => {
-        dispatch(playPause(false))
-    }
-    const handlePlayClick = (e:any) => {
-        e.stopPropagation()
-        if(activeSong?.previewUrl === song?.previewUrl) {
-        dispatch(setActiveSong(song));
-        } else {
-        dispatch(setActiveSong(song));
-        }
-        dispatch(playPause(true));
-    }
-  
+    
     return (
         <>
             <div className={`absolute top-0 h-screen w-full bg-gradient-to-tl backdrop-blur-lg z-10 p-6 smooth-transition ${showModal ? 'right-0' : '-right-full'}`}>
@@ -50,8 +39,8 @@ const Modal: React.FC<ModalProps> = ({showModal, onClose, song }) => {
                         <p>Country: {activeModalSong?.country}</p>
                         <div className='pt-5'>
                         <PlayPause
-                            handlePause={handlePauseClick}
-                            handlePlay={handlePlayClick}
+                            handlePause={onPauseClick}
+                            handlePlay={onPlayClick}
                             activeSong={activeSong}
                             isPlaying={isPlaying}
                             id={activeModalSong?.trackId}

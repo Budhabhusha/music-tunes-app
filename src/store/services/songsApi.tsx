@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const getSongsData = async (term = '', offset = 0) => {
-    let sreachTeram = term ? term : 'AJ'
+    let sreachTeram = term ? term : 'Sonu'
     try {
       const response = await axios.get(`https://itunes.apple.com/search/?term=${sreachTeram}&offset=${offset}&limit=15`);
       return response.data.results

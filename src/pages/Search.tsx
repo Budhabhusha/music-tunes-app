@@ -18,7 +18,6 @@ const Search = () => {
             song={song}
             activeSong={activeSong}
             isPlaying={isPlaying}
-            id={song?.trackId}
         />
         ))}
       </div>
