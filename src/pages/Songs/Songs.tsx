@@ -10,10 +10,11 @@ import { playPause, setActiveSong } from '../../store/features/songSlice'
 interface SongsDataProps {
   musicData?:any,
   isFetching?: boolean,
-  error?:any
+  error?:any;
+  noSongsFound?: boolean
 }
 const Songs: React.FC<SongsDataProps> = (props) => {
-  const {musicData, isFetching, error} = props
+  const {musicData, isFetching, error,noSongsFound} = props
   const [showModal,setShowModal] = useState(false)
   const {activeSong,isPlaying} = useSelector((state:any)=> state.songs)
   const dispatch = useDispatch()
@@ -27,7 +28,6 @@ const Songs: React.FC<SongsDataProps> = (props) => {
 
   const handlePlayClick = (e:any,song:any) => {
     e.stopPropagation()
-    console.log(activeSong);
    if(activeSong?.previewUrl !== song?.previewUrl) {
      dispatch(setActiveSong(song));
    } else {
@@ -64,6 +64,7 @@ const Songs: React.FC<SongsDataProps> = (props) => {
       }
     </div>
     {isFetching && <Loader title="Loding Songs...."/>}
+    {!isFetching && noSongsFound && <Error message='No Songs Found'/>}
     {showModal && 
        <Modal 
           showModal={showModal} 

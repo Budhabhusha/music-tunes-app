@@ -20,9 +20,9 @@ const Modal: React.FC<ModalProps> = ({showModal, onClose, song,onPlayClick,onPau
     return (
         <>
             <div className={`absolute top-0 h-screen w-full bg-gradient-to-tl backdrop-blur-lg z-10 p-6 smooth-transition ${showModal ? 'right-0' : '-right-full'}`}>
-                <div className="absolute block top-6 right-3">
+                <div className="absolute block top-16 right-6">
                     {
-                        showModal && <RiCloseLine onClick={onClose} className="w-6 h-6 text-white mr-2" />
+                        showModal && <RiCloseLine onClick={onClose} className="w-6 h-6 text-white mr-2 cursor-pointer" />
                     }
                 </div>
                 <div className="mt-8 p-8 rounded-md shadow-md z-50 border-2 border-cyan-800 w-full bg-black bg-opacity-60">

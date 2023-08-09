@@ -1,8 +1,4 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux'
 import PlayPause from '../PlayPause'
-import { setActiveSong,playPause } from '../../store/features/songSlice'
-
 
 interface SongsCardProps {
     activeSong?:any;
@@ -16,7 +12,7 @@ const SongsCard: React.FC<SongsCardProps> = (props) => {
 const {activeSong,isPlaying,song,onPlayClick,onPauseClick } = props
   return (
     <>
-    <div className={`flex flex-col w-[250px] md:w-[200px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer ${activeSong?.trackId === song?.trackId && isPlaying ? 'border-2 border-red-500' : ""}`}>
+    <div className={`flex flex-col w-[250px] md:w-[200px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer ${activeSong?.trackId === song?.trackId && isPlaying ? 'drop-shadow-sm  shadow-red-500 md:shadow-xl md:shadow-red-500' : "bg-opacity-50 drop-shadow-sm  shadow-cyan-500 md:shadow-xl md:shadow-cyan-500"}`}>
       <div className="relative w-full h-56 group">
         <div className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 group-hover:flex ${activeSong === song?.trackName ? 'flex bg-black bg-opacity-70 ' : 'hidden'}`}>
           <PlayPause 

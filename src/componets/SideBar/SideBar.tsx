@@ -39,7 +39,7 @@ const SideBar: React.FC<SideBarPros> = ({sideBarOpen,setSideBarOpen}) => {
      <div className={`absolute top-0 h-screen w-80 bg-gradient-to-tl from-white/10 to-[#483D8B] backdrop-blur-lg z-10 p-6 smooth-transition ${sideBarOpen ? 'left-0' : '-left-full'}`}>
      <div className="absolute block top-6 right-3">
       {
-        sideBarOpen && <RiCloseLine onClick={()=> setSideBarOpen(false)} className="w-6 h-6 text-white mr-2"/> 
+        sideBarOpen && <RiCloseLine onClick={()=> setSideBarOpen(false)} className="w-6 h-6 text-white mr-2 cursor-pointer"/> 
       }
       </div>
       <NavLinks handleClick={()=> setSideBarOpen(false)}/>

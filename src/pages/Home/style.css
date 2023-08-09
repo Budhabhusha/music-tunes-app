@@ -1,0 +1,7 @@
+
+/* .player{
+    animation: fadeIn 0.5s;
+} */
+.animate-fade-in-out {
+    animation: fade-in-out 3s ease-in-out infinite;
+}

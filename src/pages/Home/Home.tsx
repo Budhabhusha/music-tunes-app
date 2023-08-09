@@ -6,10 +6,13 @@ import getSongsData from '../../store/services/songsApi'
 import { useDispatch, useSelector } from 'react-redux'
 import { setActiveSong, setSongs,playPause } from '../../store/features/songSlice'
 import useInfiniteScroll from '../../customHooks/useInfiniteScroll'
+import Error from '../../componets/Error'
+import './style.css'
 const Home: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [offset, setOffset] = useState<number>(1);
   const [error, setError] = useState<boolean>(false);
+  const [noSongsFound, setNoSongsFound] = useState(false)
   const { activeSong, songs, isPlaying,isActive,search } = useSelector((state: any) => state.songs)
   const dispatch = useDispatch()
   const containerRef = useRef<null | HTMLDivElement>(null) ;
@@ -21,10 +24,12 @@ const Home: React.FC = () => {
   const feacthSongs = async() =>{
     setIsLoading(true);
     const songsData = await getSongsData(search, offset)
-    if (songsData?.length) {
+    if (songsData?.length > 0) {
       if (!activeSong?.previewUrl) {
         dispatch(setActiveSong(songsData[0]))
       }
+    } else {
+      setNoSongsFound(true)
     }
     dispatch(setSongs(songsData))
     setIsLoading(false)
@@ -76,14 +81,18 @@ const Home: React.FC = () => {
                 musicData={songs}
                 isFetching={isLoading}
                 error={error}
+                noSongsFound={noSongsFound}
               />
             </div>
           </div>
         </div>
         {activeSong?.trackId && isPlaying && (
           <div 
-          className={`absolute h-28 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#2a2a80] backdrop-blur-lg rounded-t-3xl z-10 ${isPlaying ? 'transition-all ease-in-out duration-500 delay-[200ms]' : ''}`}
-          >
+          className={`animate-fade-in-out absolute h-28 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#2a2a80] backdrop-blur-lg rounded-t-3xl z-10 ${isPlaying ? 'transition-opacity duration-500 ease-in-out' : ''}`}
+          // style={{
+          //   display:activeSong?.trackId && isPlaying ?'block':'none'
+          // }}
+         >
             <MusicPlayer
               handleNextSongClick={handleNextSongClick}
               handlePrevSongClick={handlePrevSongClick}

@@ -29,8 +29,8 @@ const NavBar = () => {
        <div className="flex items-center">
        {
         sideBarOpen ? (
-          <RiCloseLine onClick={()=> setSideBarOpen(false)} className="w-6 h-6 text-white mr-2"/> 
-        ) : <HiOutlineMenu onClick={()=> setSideBarOpen(true)} className="w-6 h-6 text-white mr-2"/>
+          <RiCloseLine onClick={()=> setSideBarOpen(false)} className="w-6 h-6 text-white mr-2 cursor-pointer"/> 
+        ) : <HiOutlineMenu onClick={()=> setSideBarOpen(true)} className="w-6 h-6 text-white mr-2 cursor-pointer"/>
        }
        {sideBarOpen && <SideBar sideBarOpen={sideBarOpen} setSideBarOpen={setSideBarOpen}/>}
         <img className="h-10 w-auto" src={MusicLogo} alt="Logo" />
